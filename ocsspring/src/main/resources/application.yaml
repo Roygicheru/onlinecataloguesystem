@@ -1,0 +1,32 @@
+spring:
+  datasource:
+#    url: jdbc:postgresql://my-postgres:5432/classicmodels
+    url: jdbc:postgresql://localhost:5432/classicmodels
+    username: classicmodels_user
+    password: MySecurePassword123!
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    #      ddl-auto: create-drop  # Options: none, validate, update, create, create-drop
+#      ddl-auto: update  # Options: none, validate, update, create, create-drop
+    show-sql: true       # Logs SQL statements to console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  # Optional: Logging SQL formatting
+  logging:
+    level:
+      com.team.onlinecatalogsystem: DEBUG
+      org.springframework.web: DEBUG
+      org.hibernate: INFO
+      root: INFO
+  jpa.properties.hibernate.format_sql: true
+
+server:
+  port: 8080  # Or any port you prefer
+
+
