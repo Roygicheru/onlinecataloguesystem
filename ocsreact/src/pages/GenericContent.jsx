@@ -9,7 +9,7 @@ const GenericContent = ({ title, icon }) => {
           <span className="text-2xl">{icon}</span>
         </div>
         <h3 className="text-xl font-semibold text-gray-800 mb-2">{title} Management</h3>
-        <p className="text-gray-600">This section is under development. Connect to your Spring Boot backend to display real data.</p>
+        <p className="text-gray-600">This section is under development. Check back soon!</p>
         <button className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
           Coming Soon
         </button>
