@@ -57,7 +57,7 @@ public class Product {
 
     @Column(name = "msrp", nullable = false, precision = 10, scale = 2)
     @Positive(message = "MSRP must be positive")
-    @JsonProperty("MSRP")
+    // @JsonProperty("MSRP")
     private BigDecimal msrp;
 }
 
