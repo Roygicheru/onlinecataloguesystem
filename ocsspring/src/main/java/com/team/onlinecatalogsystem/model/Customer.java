@@ -16,17 +16,17 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "customerName", length = 50, nullable = false)
+    @Column(name = "customername", length = 50, nullable = false)
     @NotBlank(message = "Customer name is required")
     @Size(max = 50, message = "Customer name must be at most 50 characters")
     private String customerName;
 
-    @Column(name = "contactLastName", length = 50, nullable = false)
+    @Column(name = "contactlastname", length = 50, nullable = false)
     @NotBlank(message = "Contact last name is required")
     @Size(max = 50, message = "Contact last name must be at most 50 characters")
     private String contactLastName;
 
-    @Column(name = "contactFirstName", length = 50, nullable = false)
+    @Column(name = "contactfirstname", length = 50, nullable = false)
     @NotBlank(message = "Contact first name is required")
     @Size(max = 50, message = "Contact first name must be at most 50 characters")
     private String contactFirstName;
@@ -36,12 +36,12 @@ public class Customer {
     @Size(max = 50, message = "Phone must be at most 50 characters")
     private String phone;
 
-    @Column(name = "addressLine1", length = 50, nullable = false)
+    @Column(name = "addressline1", length = 50, nullable = false)
     @NotBlank(message = "Address Line 1 is required")
     @Size(max = 50, message = "Address Line 1 must be at most 50 characters")
     private String addressLine1;
 
-    @Column(name = "addressLine2", length = 50)
+    @Column(name = "addressline2", length = 50)
     @Size(max = 50, message = "Address Line 2 must be at most 50 characters")
     private String addressLine2;
 
@@ -54,7 +54,7 @@ public class Customer {
     @Size(max = 50, message = "State must be at most 50 characters")
     private String state;
 
-    @Column(name = "postalCode", length = 15)
+    @Column(name = "postalcode", length = 15)
     @Size(max = 15, message = "Postal code must be at most 15 characters")
     private String postalCode;
 
@@ -64,11 +64,11 @@ public class Customer {
     private String country;
 
     // CHANGED: String instead of Long for consistency with your approach
-    @Column(name = "salesRepEmployeeNumber")
+    @Column(name = "salesrepemployeenumber")
     private String salesRepEmployeeNumber;
 
     // CHANGED: Double to BigDecimal for better precision
-    @Column(name = "creditLimit", precision = 10)
+    @Column(name = "creditlimit", precision = 10)
     @PositiveOrZero(message = "Credit limit must be zero or positive")
     private BigDecimal creditLimit;
 }
