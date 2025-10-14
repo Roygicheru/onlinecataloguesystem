@@ -12,6 +12,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173") // Add CORS support
 public class OrderController {
     private final OrderServiceI orderService;
 

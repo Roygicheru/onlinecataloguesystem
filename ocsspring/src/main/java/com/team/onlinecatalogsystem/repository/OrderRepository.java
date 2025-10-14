@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    // Custom query methods
-    List<Order> findByCustomerNumber(String customerNumber);
+    // Custom query methods - updated to match lowercase field names
+    List<Order> findByCustomernumber(String customernumber);
     List<Order> findByStatus(String status);
 }

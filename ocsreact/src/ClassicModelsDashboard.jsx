@@ -4,6 +4,7 @@ import Header from './components/Header';
 import HomeContent from './pages/HomeContent';
 import ProductsContent from './pages/ProductsContent';
 import CustomersContent from './pages/CustomersContent';
+import OrdersContent from './pages/OrdersContent';
 import GenericContent from './pages/GenericContent';
 import { menuItems } from './data/mockData';
 
@@ -24,7 +25,7 @@ const ClassicModelsDashboard = () => {
       case 'customers':
         return <CustomersContent />;
       case 'orders':
-        return <GenericContent title="Orders" icon="🛒" />;
+        return <OrdersContent />;
       case 'payments':
         return <GenericContent title="Payments" icon="💳" />;
       case 'employees':

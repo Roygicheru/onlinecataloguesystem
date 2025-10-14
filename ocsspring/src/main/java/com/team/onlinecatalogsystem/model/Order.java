@@ -16,27 +16,26 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "orderDate", nullable = false)
+    @Column(name = "orderdate", nullable = false)
     @NotNull(message = "Order date is required")
-    private LocalDate orderDate;
+    private LocalDate orderdate;
 
-    @Column(name = "requiredDate", nullable = false)
+    @Column(name = "requireddate", nullable = false)
     @NotNull(message = "Required date is required")
-    private LocalDate requiredDate;
+    private LocalDate requireddate;
 
-    @Column(name = "shippedDate")
-    private LocalDate shippedDate;
+    @Column(name = "shippeddate")
+    private LocalDate shippeddate;
 
     @Column(name = "status", length = 15, nullable = false)
     @NotBlank(message = "Status is required")
     @Size(max = 15, message = "Status must be at most 15 characters")
     private String status;
 
-    @Lob
     @Column(name = "comments")
     private String comments;
 
-    @Column(name = "customerNumber", nullable = false)
+    @Column(name = "customernumber", nullable = false)
     @NotBlank(message = "Customer number is required")
-    private String customerNumber;
+    private String customernumber;
 }

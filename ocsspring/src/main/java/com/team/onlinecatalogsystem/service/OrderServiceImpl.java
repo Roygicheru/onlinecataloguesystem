@@ -44,12 +44,12 @@ public class OrderServiceImpl implements OrderServiceI {
     public Order updateOrder(Long id, Order order) {
         return orderRepository.findById(id)
                 .map(existingOrder -> {
-                    existingOrder.setOrderDate(order.getOrderDate());
-                    existingOrder.setRequiredDate(order.getRequiredDate());
-                    existingOrder.setShippedDate(order.getShippedDate());
+                    existingOrder.setOrderdate(order.getOrderdate());
+                    existingOrder.setRequireddate(order.getRequireddate());
+                    existingOrder.setShippeddate(order.getShippeddate());
                     existingOrder.setStatus(order.getStatus());
                     existingOrder.setComments(order.getComments());
-                    existingOrder.setCustomerNumber(order.getCustomerNumber());
+                    existingOrder.setCustomernumber(order.getCustomernumber());
                     return orderRepository.save(existingOrder);
                 })
                 .orElseThrow(() -> new RuntimeException("Order with ID " + id + " not found"));
