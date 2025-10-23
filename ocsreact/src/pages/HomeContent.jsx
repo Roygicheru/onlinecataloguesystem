@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import ProductLineCard from '../components/ProductLineCard';
 import ProductLineModal from '../components/ProductLineModal';
+import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
 import { productLineApi } from '../services/api';
 import { getProductLineIcon } from '../data/mockData';
 
@@ -15,6 +16,10 @@ const HomeContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
   const [selectedProductLine, setSelectedProductLine] = useState(null);
+  
+  // Delete confirmation modal state
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [productLineToDelete, setProductLineToDelete] = useState(null);
 
   // Fetch product lines from API
   const fetchProductLines = async () => {
@@ -69,15 +74,23 @@ const HomeContent = () => {
     setIsModalOpen(true);
   };
 
-  // Handle Delete Product Line
-  const handleDelete = async (productLine) => {
-    if (window.confirm(`Are you sure you want to delete "${productLine.productLine}"? This action cannot be undone.`)) {
-      try {
-        await productLineApi.delete(productLine.id);
-        setProductLines(productLines.filter(pl => pl.id !== productLine.id));
-      } catch (err) {
-        alert('Error deleting product line: ' + err.message);
-      }
+  // Handle Delete Product Line - Show confirmation modal
+  const handleDelete = (productLine) => {
+    setProductLineToDelete(productLine);
+    setIsDeleteModalOpen(true);
+  };
+
+  // Confirm Delete
+  const confirmDelete = async () => {
+    try {
+      await productLineApi.delete(productLineToDelete.id);
+      setProductLines(productLines.filter(pl => pl.id !== productLineToDelete.id));
+      setIsDeleteModalOpen(false);
+      setProductLineToDelete(null);
+    } catch (err) {
+      alert('Error deleting product line: ' + err.message);
+      setIsDeleteModalOpen(false);
+      setProductLineToDelete(null);
     }
   };
 
@@ -205,6 +218,18 @@ const HomeContent = () => {
         onSave={handleSave}
         productLine={selectedProductLine}
         mode={modalMode}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setProductLineToDelete(null);
+        }}
+        onConfirm={confirmDelete}
+        itemName={productLineToDelete?.productLine}
+        itemType="product line"
       />
     </div>
   );

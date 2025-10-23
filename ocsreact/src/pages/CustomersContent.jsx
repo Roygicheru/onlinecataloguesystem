@@ -101,9 +101,9 @@ const CustomersContent = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-800">Customers</h1>
-        <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Customers</h1>
+        <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 w-full sm:w-auto justify-center text-sm sm:text-base">
           <span className="text-lg">+</span>
           Add Customer
         </button>
@@ -111,48 +111,48 @@ const CustomersContent = () => {
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-xs sm:text-sm">
             <thead className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
               <tr>
-                <th className="px-6 py-4 text-left font-semibold">Customer Name</th>
-                <th className="px-6 py-4 text-left font-semibold">Contact</th>
-                <th className="px-6 py-4 text-left font-semibold">Phone</th>
-                <th className="px-6 py-4 text-left font-semibold">City</th>
-                <th className="px-6 py-4 text-left font-semibold">Country</th>
-                <th className="px-6 py-4 text-left font-semibold">Credit Limit</th>
-                <th className="px-6 py-4 text-left font-semibold">Actions</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">Customer Name</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">Contact</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">Phone</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">City</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">Country</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">Credit Limit</th>
+                <th className="px-1.5 sm:px-3 py-2 sm:py-3 text-left font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {currentCustomers.map((customer, index) => (
                 <tr key={customer.id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                  <td className="px-6 py-4 font-medium text-gray-800">{customer.customerName}</td>
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3 font-medium text-gray-800 max-w-[100px] sm:max-w-[200px] truncate" title={customer.customerName}>{customer.customerName}</td>
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3 text-gray-600 max-w-[80px] sm:max-w-[150px] truncate" title={`${customer.contactFirstName} ${customer.contactLastName}`}>
                     {customer.contactFirstName} {customer.contactLastName}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">{customer.phone}</td>
-                  <td className="px-6 py-4 text-gray-600">{customer.city}</td>
-                  <td className="px-6 py-4 text-gray-600">{customer.country}</td>
-                  <td className="px-6 py-4 font-semibold text-emerald-600">
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3 text-gray-600">{customer.phone}</td>
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3 text-gray-600">{customer.city}</td>
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3 text-gray-600">{customer.country}</td>
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3 font-semibold text-emerald-600">
                     ${customer.creditLimit?.toLocaleString() || '0'}
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
+                  <td className="px-1.5 sm:px-3 py-2 sm:py-3">
+                    <div className="flex items-center gap-0.5 sm:gap-1">
                       <button 
                         onClick={() => handleEdit(customer.id)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                        className="p-1 sm:p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors" 
                         title="Edit"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                       </button>
                       <button 
                         onClick={() => handleDelete(customer.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                        className="p-1 sm:p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors" 
                         title="Delete"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                       </button>
@@ -187,7 +187,6 @@ const CustomersContent = () => {
 };
 
 export default CustomersContent;
-
 
 
 
