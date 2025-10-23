@@ -34,9 +34,9 @@ public class OrderController {
         return order.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/customer/{customerNumber}")
-    public ResponseEntity<List<Order>> getOrdersByCustomerNumber(@PathVariable String customerNumber) {
-        List<Order> orderList = orderService.getOrdersByCustomerNumber(customerNumber);
+    @GetMapping("/customer/{customernumber}")
+    public ResponseEntity<List<Order>> getOrdersByCustomerNumber(@PathVariable String customernumber) {
+        List<Order> orderList = orderService.getOrdersByCustomerNumber(customernumber);
         return ResponseEntity.ok(orderList);
     }
 

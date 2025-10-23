@@ -31,8 +31,8 @@ public class OrderServiceImpl implements OrderServiceI {
     }
 
     @Override
-    public List<Order> getOrdersByCustomerNumber(String customerNumber) {
-        return orderRepository.findByCustomerNumber(customerNumber);
+    public List<Order> getOrdersByCustomerNumber(String customernumber) {
+        return orderRepository.findByCustomernumber(customernumber);
     }
 
     @Override
