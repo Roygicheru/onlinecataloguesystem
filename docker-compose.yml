@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: classicmodels
+      POSTGRES_USER: classicmodels_user
+      POSTGRES_PASSWORD: mysecretpass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ocsnet
+
+  backend:
+    build:
+      context: ./ocsspring
+      dockerfile: Dockerfile
+    # optional container_name: ocs_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/classicmodels
+      SPRING_DATASOURCE_USERNAME: classicmodels_user
+      SPRING_DATASOURCE_PASSWORD: mysecretpass
+      SERVER_PORT: 8080
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    networks:
+      - ocsnet
+
+  frontend:
+    build:
+      context: ./ocsreact
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - ocsnet
+
+  # Optional: pgAdmin - uncomment if you want a database GUI
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ocs.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - ocsnet
+
+volumes:
+  pgdata:
+
+networks:
+  ocsnet:
