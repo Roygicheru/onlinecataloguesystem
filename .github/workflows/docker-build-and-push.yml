@@ -13,15 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🧩 Login to DockerHub - FINAL ATTEMPT WITH github.actor
-      # This is the industry-standard, clean way to pass secrets.
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
-        with:
-          # Use the GitHub Actor context for the username
-          username: ${{ github.actor }} 
-          # Use the secret for the Personal Access Token (PAT)
-          password: ${{ secrets.DOCKERHUB_TOKEN }} 
+     # 💥 FINAL ATTEMPT: BYPASSING THE ACTION WITH RAW DOCKER CLI
+      - name: Login to Docker Hub using Raw CLI
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ github.actor }}" --password-stdin
           
       # 🏗️ Build and push FRONTEND image
       - name: Build and push frontend image.
