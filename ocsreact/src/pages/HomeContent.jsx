@@ -16,10 +16,12 @@ const HomeContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
   const [selectedProductLine, setSelectedProductLine] = useState(null);
+  const [isModalClosing, setIsModalClosing] = useState(false);
   
   // Delete confirmation modal state
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productLineToDelete, setProductLineToDelete] = useState(null);
+  const [isDeleteModalClosing, setIsDeleteModalClosing] = useState(false);
 
   // Fetch product lines from API
   const fetchProductLines = async () => {
@@ -65,6 +67,7 @@ const HomeContent = () => {
     setModalMode('add');
     setSelectedProductLine(null);
     setIsModalOpen(true);
+    setIsModalClosing(false);
   };
 
   // Handle Edit Product Line
@@ -72,12 +75,33 @@ const HomeContent = () => {
     setModalMode('edit');
     setSelectedProductLine(productLine);
     setIsModalOpen(true);
+    setIsModalClosing(false);
   };
 
   // Handle Delete Product Line - Show confirmation modal
   const handleDelete = (productLine) => {
     setProductLineToDelete(productLine);
     setIsDeleteModalOpen(true);
+    setIsDeleteModalClosing(false);
+  };
+
+  // Close modal functions with animation
+  const closeModal = () => {
+    setIsModalClosing(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setIsModalClosing(false);
+      setSelectedProductLine(null);
+    }, 300);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalClosing(true);
+    setTimeout(() => {
+      setIsDeleteModalOpen(false);
+      setIsDeleteModalClosing(false);
+      setProductLineToDelete(null);
+    }, 300);
   };
 
   // Confirm Delete
@@ -85,12 +109,10 @@ const HomeContent = () => {
     try {
       await productLineApi.delete(productLineToDelete.id);
       setProductLines(productLines.filter(pl => pl.id !== productLineToDelete.id));
-      setIsDeleteModalOpen(false);
-      setProductLineToDelete(null);
+      closeDeleteModal();
     } catch (err) {
       alert('Error deleting product line: ' + err.message);
-      setIsDeleteModalOpen(false);
-      setProductLineToDelete(null);
+      closeDeleteModal();
     }
   };
 
@@ -116,8 +138,7 @@ const HomeContent = () => {
           pl.id === selectedProductLine.id ? productLineWithIcon : pl
         ));
       }
-      setIsModalOpen(false);
-      setSelectedProductLine(null);
+      closeModal();
     } catch (err) {
       alert(`Error ${modalMode === 'add' ? 'adding' : 'updating'} product line: ` + err.message);
     }
@@ -211,10 +232,8 @@ const HomeContent = () => {
       {/* Product Line Modal */}
       <ProductLineModal
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedProductLine(null);
-        }}
+        isClosing={isModalClosing}
+        onClose={closeModal}
         onSave={handleSave}
         productLine={selectedProductLine}
         mode={modalMode}
@@ -223,10 +242,8 @@ const HomeContent = () => {
       {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
-        onClose={() => {
-          setIsDeleteModalOpen(false);
-          setProductLineToDelete(null);
-        }}
+        isClosing={isDeleteModalClosing}
+        onClose={closeDeleteModal}
         onConfirm={confirmDelete}
         itemName={productLineToDelete?.productLine}
         itemType="product line"
@@ -236,6 +253,7 @@ const HomeContent = () => {
 };
 
 export default HomeContent;
+
 
 
 
