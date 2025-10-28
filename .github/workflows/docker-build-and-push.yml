@@ -13,20 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ⚠️ DIAGNOSTIC STEP - REMOVE LATER ⚠️
-      - name: Check Secret Existence
-        run: |
-          # A secret will be replaced by *** in the logs if it's accessed correctly.
-          echo "DOCKERHUB_USERNAME is set to: ${{ secrets.DOCKERHUB_USERNAME }}"
-          echo "DOCKERHUB_TOKEN exists: ${{ secrets.DOCKERHUB_TOKEN }}"
-        # REMOVE THIS LINE: if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
-
-      # 🧩 Login to DockerHub
-      - name: Login to DockerHub
+      # 🧩 Login to DockerHub - FINAL ROBUST FIX
+      # Step 1: Use an environment variable to pass the secret securely
+      - name: Set DockerHub Password Environment Variable
+        run: echo "DOCKER_PASSWORD=${{ secrets.DOCKERHUB_TOKEN }}" >> $GITHUB_ENV
+        
+      # Step 2: Login using the token from the environment variable via password-stdin
+      - name: Login to Docker Hub via STDIN
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ env.DOCKER_PASSWORD }} # Use the environment variable set in the previous step
 
 
       # 🏗️ Build and push FRONTEND image
