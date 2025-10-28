@@ -17,13 +17,13 @@ jobs:
       # - name: Login to Docker Hub using Cleaned CLI
       #   run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
       
-      # ⚠️ TEMPORARY SANITY CHECK STEP ⚠️
-      - name: Run a Simple Code Test
-        run: |
-          echo "Building frontend project..."
-          # Replace this with a simple test command for your frontend, e.g., yarn test or npm run test
-          ls -la ./ocsreact 
-
+      # 💥 FINAL, ABSOLUTE FIX: Pass Token via Step Environment Variable
+      - name: Login to Docker Hub using Environment Variable
+        run: docker login -u ${{ github.actor }} --password-stdin
+        env:
+          # Use a variable named DOCKER_PASSWORD
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          
       # 🏗️ Build and push FRONTEND image - COMMENTED OUT
       # - name: Build and push frontend image.
       #   uses: docker/build-push-action@v6
