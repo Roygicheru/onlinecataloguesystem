@@ -13,10 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-     # 💥 FINAL ATTEMPT: BYPASSING THE ACTION WITH RAW DOCKER CLI
-      - name: Login to Docker Hub using Raw CLI
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ github.actor }}" --password-stdin
-          
+     # 💥 FINAL, CLEAN FIX: Use tr to remove invisible trailing characters
+      - name: Login to Docker Hub using Cleaned CLI
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
       # 🏗️ Build and push FRONTEND image
       - name: Build and push frontend image.
         uses: docker/build-push-action@v6
