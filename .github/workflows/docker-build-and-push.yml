@@ -22,7 +22,7 @@ jobs:
 
 
       # 🏗️ Build and push FRONTEND image
-      - name: Build and push frontend image
+      - name: Build and push frontend image.
         uses: docker/build-push-action@v6
         with:
           context: ./ocsreact
@@ -33,7 +33,7 @@ jobs:
             roygicheru/ocsfullstack-frontend:${{ github.run_number }}
 
       # ⚙️ Build and push BACKEND image
-      - name: Build and push backend image
+      - name: Build and push backend image.
         uses: docker/build-push-action@v6
         with:
           context: ./ocsspring
