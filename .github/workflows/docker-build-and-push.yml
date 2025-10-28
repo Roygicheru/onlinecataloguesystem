@@ -13,11 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🧩 Login to DockerHub
+      # 🧩 Login to DockerHub - UPDATED FIX
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          # Use your public username directly
+          username: 'roygicheru' 
+          # Ensure the token secret is passed
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
 
