@@ -38,4 +38,3 @@ jobs:
           tags: |
             roygicheru/ocsfullstack-backend:latest
             roygicheru/ocsfullstack-backend:${{ github.run_number }}
-        # This is just a comment
