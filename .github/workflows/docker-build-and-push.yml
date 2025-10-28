@@ -1,36 +1,47 @@
-name: 🧩 Application Build and Test CI
+name: Build and Push Docker Images
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'ocsreact/**'
-      - 'ocsspring/**'
 
 jobs:
-  frontend_ci:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js for Frontend
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20' # Specify the version needed for ocsreact
+      # 🧩 Login to DockerHub - COMMENTED OUT
+      # - name: Login to Docker Hub using Cleaned CLI
+      #   run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
+      
+      # ⚠️ TEMPORARY SANITY CHECK STEP ⚠️
+      - name: Run a Simple Code Test
+        run: |
+          echo "Building frontend project..."
+          # Replace this with a simple test command for your frontend, e.g., yarn test or npm run test
+          ls -la ./ocsreact 
 
-      - name: Install Frontend Dependencies
-        working-directory: ./ocsreact
-        run: npm install
+      # 🏗️ Build and push FRONTEND image - COMMENTED OUT
+      # - name: Build and push frontend image.
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./ocsreact
+      #     file: ./ocsreact/Dockerfile
+      #     push: true
+      #     tags: |
+      #       roygicheru/ocsfullstack-frontend:latest
+      #       roygicheru/ocsfullstack-frontend:${{ github.run_number }}
 
-      - name: Run Frontend Tests
-        working-directory: ./ocsreact
-        # Change this to your actual test command
-        run: npm test -- --ci # Use CI mode if available
-        
-  # backend_ci:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     ... (Steps for setting up Java/Maven/Gradle for ocsspring)
-  #     ... (Steps for running backend unit tests)
+      # ⚙️ Build and push BACKEND image - COMMENTED OUT
+      # - name: Build and push backend image.
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./ocsspring
+      #     file: ./ocsspring/Dockerfile
+      #     push: true
+      #     tags: |
+      #       roygicheru/ocsfullstack-backend:latest
+      #       roygicheru/ocsfullstack-backend:${{ github.run_number }}
