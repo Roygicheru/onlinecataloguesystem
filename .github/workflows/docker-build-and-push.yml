@@ -13,12 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ⚠️ DIAGNOSTIC STEP - CHECK LOGS FOR *** ⚠️
+      # ⚠️ DIAGNOSTIC STEP - REMOVE LATER ⚠️
       - name: Check Secret Existence
         run: |
+          # A secret will be replaced by *** in the logs if it's accessed correctly.
           echo "DOCKERHUB_USERNAME is set to: ${{ secrets.DOCKERHUB_USERNAME }}"
           echo "DOCKERHUB_TOKEN exists: ${{ secrets.DOCKERHUB_TOKEN }}"
-        if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+        # REMOVE THIS LINE: if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
 
       # 🧩 Login to DockerHub
       - name: Login to DockerHub
