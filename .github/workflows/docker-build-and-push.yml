@@ -13,13 +13,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🧩 Login to DockerHub - UPDATED FIX
+      # ⚠️ DIAGNOSTIC STEP - CHECK LOGS FOR *** ⚠️
+      - name: Check Secret Existence
+        run: |
+          echo "DOCKERHUB_USERNAME is set to: ${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "DOCKERHUB_TOKEN exists: ${{ secrets.DOCKERHUB_TOKEN }}"
+        if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+
+      # 🧩 Login to DockerHub
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          # Use your public username directly
-          username: 'roygicheru' 
-          # Ensure the token secret is passed
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
 
