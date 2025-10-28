@@ -13,29 +13,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🧩 Login to DockerHub - RE-ENABLED with the robust fix
-      - name: Login to Docker Hub using Cleaned CLI
-        # This uses the 'tr' command to remove invisible newlines from the secret value.
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
+      # 🧩 Login to DockerHub - COMMENTED OUT
+      # - name: Login to Docker Hub using Cleaned CLI
+      #   run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
       
-      # 🏗️ Build and push FRONTEND image - RE-ENABLED
-      - name: Build and push frontend image.
-        uses: docker/build-push-action@v6
-        with:
-          context: ./ocsreact
-          file: ./ocsreact/Dockerfile
-          push: true
-          tags: |
-            roygicheru/ocsfullstack-frontend:latest
-            roygicheru/ocsfullstack-frontend:${{ github.run_number }}
+      # ⚠️ TEMPORARY SANITY CHECK STEP ⚠️
+      - name: Run a Simple Code Test
+        run: |
+          echo "Building frontend project..."
+          # Replace this with a simple test command for your frontend, e.g., yarn test or npm run test
+          ls -la ./ocsreact 
 
-      # ⚙️ Build and push BACKEND image - RE-ENABLED
-      - name: Build and push backend image.
-        uses: docker/build-push-action@v6
-        with:
-          context: ./ocsspring
-          file: ./ocsspring/Dockerfile
-          push: true
-          tags: |
-            roygicheru/ocsfullstack-backend:latest
-            roygicheru/ocsfullstack-backend:${{ github.run_number }}
+      # 🏗️ Build and push FRONTEND image - COMMENTED OUT
+      # - name: Build and push frontend image.
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./ocsreact
+      #     file: ./ocsreact/Dockerfile
+      #     push: true
+      #     tags: |
+      #       roygicheru/ocsfullstack-frontend:latest
+      #       roygicheru/ocsfullstack-frontend:${{ github.run_number }}
+
+      # ⚙️ Build and push BACKEND image - COMMENTED OUT
+      # - name: Build and push backend image.
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./ocsspring
+      #     file: ./ocsspring/Dockerfile
+      #     push: true
+      #     tags: |
+      #       roygicheru/ocsfullstack-backend:latest
+      #       roygicheru/ocsfullstack-backend:${{ github.run_number }}
