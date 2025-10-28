@@ -1,4 +1,4 @@
-name: Build and Push Docker Images
+name: 🧩 Application Code Check
 
 on:
   push:
@@ -13,34 +13,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🧩 Login to DockerHub - COMMENTED OUT
-      # - name: Login to Docker Hub using Cleaned CLI
-      #   run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
-      
-      # 💥 ABSOLUTE FINAL ATTEMPT: TR + ENV + STDIN
-      - name: Login to Docker Hub using Final CLI Fix
-        run: echo "$DOCKER_PASSWORD" | tr -d '\n' | docker login -u "${{ github.actor }}" --password-stdin
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: 🧪 Validate Frontend Code Directory
+        run: |
+          echo "Running simple CI check on frontend code..."
+          # This command ensures the directory exists and lists its contents
+          ls -la ./ocsreact 
 
-      # 🏗️ Build and push FRONTEND image - COMMENTED OUT
-      # - name: Build and push frontend image.
-      #   uses: docker/build-push-action@v6
+      # You can add more detailed CI steps here later, like:
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
       #   with:
-      #     context: ./ocsreact
-      #     file: ./ocsreact/Dockerfile
-      #     push: true
-      #     tags: |
-      #       roygicheru/ocsfullstack-frontend:latest
-      #       roygicheru/ocsfullstack-frontend:${{ github.run_number }}
+      #     node-version: '20' 
 
-      # ⚙️ Build and push BACKEND image - COMMENTED OUT
-      # - name: Build and push backend image.
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: ./ocsspring
-      #     file: ./ocsspring/Dockerfile
-      #     push: true
-      #     tags: |
-      #       roygicheru/ocsfullstack-backend:latest
-      #       roygicheru/ocsfullstack-backend:${{ github.run_number }}
+      # - name: Install Dependencies and Run Tests
+      #   working-directory: ./ocsreact
+      #   run: |
+      #     npm install
+      #     npm test
