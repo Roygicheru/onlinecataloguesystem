@@ -1,0 +1,44 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🧩 Login to DockerHub
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+
+      # 🏗️ Build and push FRONTEND image
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./ocsreact
+          file: ./ocsreact/Dockerfile
+          push: true
+          tags: |
+            roygicheru/ocsfullstack-frontend:latest
+            roygicheru/ocsfullstack-frontend:${{ github.run_number }}
+
+      # ⚙️ Build and push BACKEND image
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./ocsspring
+          file: ./ocsspring/Dockerfile
+          push: true
+          tags: |
+            roygicheru/ocsfullstack-backend:latest
+            roygicheru/ocsfullstack-backend:${{ github.run_number }}
