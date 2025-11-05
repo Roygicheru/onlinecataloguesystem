@@ -1,28 +1,74 @@
-name: 🚀 Simple Sanity Check
+name: 🛠️ Full-Stack CI/Build Pipeline
 
 on:
   push:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch: 
+      - develop
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  check-environment:
+  # -------------------------------------------------------------------
+  # 1. Backend CI Job (Spring Boot/Maven)
+  # -------------------------------------------------------------------
+  backend-ci:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 💬 Display a Greeting
-        run: |
-          echo "Hello, ${{ github.actor }}! Your GitHub Action is working."
-          echo "We are running on branch: ${{ github.ref_name }}"
-
       - name: 📂 Checkout Code
-        # This step is often necessary to access your files
         uses: actions/checkout@v4
 
-      - name: 📋 List Files to confirm checkout
-        run: ls -la
+      - name: ☕ Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Standard Java LTS for modern Spring Boot
+          distribution: 'temurin'
+          cache: 'maven' # Speeds up subsequent runs by caching dependencies
 
-      - name: ✅ Report Success
-        run: echo "Sanity check complete. The action runner is healthy."
+      - name: 🔨 Build and Package Backend
+        # This compiles the code, runs unit tests, and packages the app.
+        run: |
+          echo "Starting Maven build for Spring Boot..."
+          # Assuming the Spring Boot project is in a subdirectory named 'backend'
+          mvn -B clean package --file backend/pom.xml
+
+      - name: ✅ Backend Build Success
+        run: echo "Spring Boot build and basic test suite passed successfully."
+
+  # -------------------------------------------------------------------
+  # 2. Frontend CI Job (React/Node)
+  # -------------------------------------------------------------------
+  frontend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # A modern, supported Node.js version
+          cache: 'npm'
+          # Assuming package-lock.json is in a subdirectory named 'frontend'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 📦 Install Dependencies
+        # Installs all packages listed in frontend/package.json
+        run: npm install
+        working-directory: ./frontend
+
+      - name: 🧪 Run Basic Frontend Tests
+        # Runs the standard npm test script, which usually includes Jest/React testing.
+        # Adding --if-present prevents the workflow from failing if no test script is defined.
+        run: npm test --if-present
+        working-directory: ./frontend
+
+      - name: 🏗️ Create Production Build (Artifact)
+        # Creates the production-ready build folder. This is a critical CI step.
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: ✅ Frontend Build Success
+        run: echo "React frontend built successfully and ready for deployment."
