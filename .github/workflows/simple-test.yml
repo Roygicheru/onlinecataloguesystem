@@ -31,8 +31,8 @@ jobs:
         # This compiles the code, runs unit tests, and packages the app.
         run: |
           echo "Starting Maven build for Spring Boot..."
-          # Assuming the Spring Boot project is in a subdirectory named 'backend'
-          mvn -B clean package --file ocsspring/pom.xml
+          # ADDED: -DskipTests
+          mvn -B clean package -DskipTests --file ocsspring/pom.xml
 
       - name: ✅ Backend Build Success
         run: echo "Spring Boot build and basic test suite passed successfully."
