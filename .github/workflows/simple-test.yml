@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "Starting Maven build for Spring Boot..."
           # Assuming the Spring Boot project is in a subdirectory named 'backend'
-          mvn -B clean package --file backend/pom.xml
+          mvn -B clean package --file ocsspring/pom.xml
 
       - name: ✅ Backend Build Success
         run: echo "Spring Boot build and basic test suite passed successfully."
@@ -52,23 +52,23 @@ jobs:
           node-version: '20' # A modern, supported Node.js version
           cache: 'npm'
           # Assuming package-lock.json is in a subdirectory named 'frontend'
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: ocsreact/package-lock.json
 
       - name: 📦 Install Dependencies
         # Installs all packages listed in frontend/package.json
         run: npm install
-        working-directory: ./frontend
+        working-directory: ./ocsreact
 
       - name: 🧪 Run Basic Frontend Tests
         # Runs the standard npm test script, which usually includes Jest/React testing.
         # Adding --if-present prevents the workflow from failing if no test script is defined.
         run: npm test --if-present
-        working-directory: ./frontend
+        working-directory: ./ocsreact
 
       - name: 🏗️ Create Production Build (Artifact)
         # Creates the production-ready build folder. This is a critical CI step.
         run: npm run build
-        working-directory: ./frontend
+        working-directory: ./ocsreact
 
       - name: ✅ Frontend Build Success
         run: echo "React frontend built successfully and ready for deployment."
